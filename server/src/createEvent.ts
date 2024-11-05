@@ -1,20 +1,20 @@
 import { Event } from "./types";
+import { Request, Response } from "express";
 
-interface eventDetails{
-    newTitle: string,
-    newColor: string;
-    newStartTime: number;
-    newEndTime: number;
+export function createExpenseServer(req: Request, res: Response, events: Event[]) {
+  const { title, color, startTime, endTime } = req.body;
+
+  if (!title || !color || !startTime || !endTime) {
+    return res.status(400).send({ error: "Missing required fields" });
+  }
+
+  const newEvent: Event = {
+    title: title,
+    color: color,
+    startTime: startTime,
+    endTime: endTime,
+  };
+
+  events.push(newEvent);
+  res.status(201).send(newEvent);
 }
-const createExpense = (e: eventDetails) => {
-    
-
-    // Exercise: Add add new expense to expenses context array
-    const newEvent: Event = {
-        title: e.newTitle,
-        color: e.newColor,
-        startTime: e.newStartTime,
-        endTime: e.newEndTime,
-    };
-    return newEvent;
-};
