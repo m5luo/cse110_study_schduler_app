@@ -3,4 +3,5 @@ export type Event = {
     color: string;
     startTime: number;
     endTime: number;
+    weekday: string;
 };
