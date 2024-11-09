@@ -9,6 +9,7 @@ export type Label = {
 };
 
 export type TodoItem = {
+  id: string;
   content: string;
 }
 
