@@ -31,11 +31,12 @@ export function authenticateToken(req: Request, res: Response, next: any) {
 
 // Test createUser from terminal by running the line below:
 // curl -X POST http://localhost:8080/register -H 'Content-Type: application/json' -d '{"username":"testuser1","password":"test1pass"}'
-// Should be able to see new user in database.sql with username "testuser1" and password "test1pass"
+// Should be able to see new user in database.sql with username "testuser1" and a hashed password
 
 export async function createUser (req: Request, res: Response, db: any) {
     try {
-        await db.run('INSERT INTO users (username, password) VALUES (?,?)', [req.body.username, req.body.password]);
+        const hashedPassword = bcrypt.hashSync(req.body.password)
+        await db.run('INSERT INTO users (username, password) VALUES (?,?)', [req.body.username, hashedPassword]);
         const token = generateAccessToken({ username: req.body.username });
         res.status(200).send({ "username":  req.body.username, "access_token":  token });
     } catch (error) {
@@ -51,8 +52,9 @@ export async function createUser (req: Request, res: Response, db: any) {
 export async function loginUser (req: Request, res: Response, db: any) {
     try {
         let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
-        if (row.password != req.body.password) {
-            return res.send("Wrong password.")
+        const result = bcrypt.compareSync(req.body.password, row.password)
+        if (!result) {
+            return res.send("Incorrect password")
         }
         const token = generateAccessToken({ username: req.body.username });
         res.send("User logged in!")
