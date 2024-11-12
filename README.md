@@ -37,3 +37,9 @@ Run the backend server on `localhost:8080`
 ```
 npm start
 ```
+
+Create `.env` file:
+---
+
+1. Create a file in home directory named `.env`.
+2. Add `TOKEN_SECRET=<your-token>`. Replace `<your-token>` with some string, the string will be used to generate JWT tokens.
