@@ -7,11 +7,11 @@ const initDB = async () => {
    filename: "database.sqlite",
    driver: sqlite3.Database,
  });
- // Create a "budget" table if it doesn't exist
+ // Create a "users" table if it doesn't exist
  await db.exec(`
    CREATE TABLE IF NOT EXISTS users (
-     user_id TEXT PRIMARY KEY,
-     username TEXT NOT NULL,
+     user_id INTEGER PRIMARY KEY,
+     username TEXT NOT NULL UNIQUE,
      password TEXT NOT NULL
    );
  `);
