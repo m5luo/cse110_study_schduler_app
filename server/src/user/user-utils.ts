@@ -57,7 +57,7 @@ export async function loginUser (req: Request, res: Response, db: any) {
             return res.send("Incorrect password")
         }
         const token = generateAccessToken({ username: req.body.username });
-        res.send("User logged in!")
+        // res.send("User logged in!")
         res.status(200).send({ "username":  req.body.username, "access_token":  token});
     } catch (error) {
         return res.status(400).send({ error: `User could not be logged in ${error}` });
