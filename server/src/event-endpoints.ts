@@ -1,11 +1,24 @@
-import { createEventServer } from "./createEvent";
+import { createEventServer, deleteEvent, getEvents } from "./event-utils";
 import { Request, Response } from "express";
 import { Event } from "./types";
+import { Database } from "sqlite";
 
-export function createEventEndpoints(app: any, events: Event[]) {
+
+export function createEventEndpoints(app: any, db: Database) {
+    
     app.post("/events", (req: Request, res: Response) =>{
 
-        createEventServer(req, res, events);
+        createEventServer(req, res, db);
+
+    });
+    app.delete("/events/:title", (req: Request, res: Response) => {
+
+        deleteEvent(req, res, db);
+ 
+    });
+    app.get("/events", (req: Request, res: Response) => {
+
+        getEvents(res, db);
 
     });
 }
