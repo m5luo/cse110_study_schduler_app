@@ -1,25 +1,46 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignInForm.css';
+import { loginUser } from './utils/user-utils';
 
 const SignInForm: React.FC = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+//   const handleSubmit = (e: React.FormEvent) => {
+//     e.preventDefault();
+//     console.log('Username:', username);
+//     console.log('Password:', password);
+//     loginUser({username: username, password: password, id: -1})
+//   };
+//   const [error, setError] = useState(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
+
+    try {
+      const response = await loginUser({ username: username, password: password, email: "" });
+      const token = response.token;
+
+      // Store the token in local storage
+      localStorage.setItem('token', token);
+      console.log(response)
+
+      // Redirect to the protected route
+      // ...
+    } catch (err: any) {
+      console.log(err.message);
+    }
   };
 
   return (
@@ -27,10 +48,10 @@ const SignInForm: React.FC = () => {
       <form onSubmit={handleSubmit} className="form">
         <h2 className="signInHeading">Sign in</h2>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEmailChange}
+          type="username"
+          placeholder="Username"
+          value={username}
+          onChange={handleUsernameChange}
           className="signInInput"
           required
         />
