@@ -36,9 +36,10 @@ export function authenticateToken(req: Request, res: Response, next: any) {
 export async function createUser (req: Request, res: Response, db: any) {
     try {
         const hashedPassword = bcrypt.hashSync(req.body.password)
-        await db.run('INSERT INTO users (username, password) VALUES (?,?)', [req.body.username, hashedPassword]);
+        await db.run('INSERT INTO users (username, password, email) VALUES (?,?,?)', [req.body.username, hashedPassword, req.body.email]);
         const token = generateAccessToken({ username: req.body.username });
-        res.status(200).send({ "username":  req.body.username, "access_token":  token });
+        let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
+        res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "access_token":  token });
     } catch (error) {
         return res.status(400).send({ error: `User could not be created ${error}` });
     };
@@ -54,11 +55,11 @@ export async function loginUser (req: Request, res: Response, db: any) {
         let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
         const result = bcrypt.compareSync(req.body.password, row.password)
         if (!result) {
-            return res.send("Incorrect password")
+            return res.send({ error: `Password incorrect` })
         }
         const token = generateAccessToken({ username: req.body.username });
         // res.send("User logged in!")
-        res.status(200).send({ "username":  req.body.username, "access_token":  token});
+        res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "access_token":  token});
     } catch (error) {
         return res.status(400).send({ error: `User could not be logged in ${error}` });
     };
