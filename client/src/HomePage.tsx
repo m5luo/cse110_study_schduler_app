@@ -3,7 +3,7 @@ import Calendar from './Calendar.js';
 import Navbar from './Navbar.js';
 import './App.css';
 
-function App() {
+const HomePage = () => {
   return (
     <div className="app">
       <Navbar />
@@ -12,6 +12,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
-export default App;
+export default HomePage;
