@@ -4,22 +4,25 @@ import './SignInForm.css';
 
 const SignInForm: React.FC = () => {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
+
+    // Retrieve user data from localStorage
+    const storedUser = localStorage.getItem(email);
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      if (user.password === password) {
+        alert('Sign in successful!');
+        navigate('/'); // Redirect after successful login, change to homepage later
+      } else {
+        alert('Incorrect password');
+      }
+    } else {
+      alert('User not found');
+    }
   };
 
   return (
@@ -30,7 +33,7 @@ const SignInForm: React.FC = () => {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={handleEmailChange}
+          onChange={(e) => setEmail(e.target.value)}
           className="signInInput"
           required
         />
@@ -38,27 +41,17 @@ const SignInForm: React.FC = () => {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={handlePasswordChange}
+          onChange={(e) => setPassword(e.target.value)}
           className="signInInput"
           required
         />
         <div className="linkContainer">
-          <button
-            type="button"
-            className="link"
-            onClick={() => navigate('/forgot-password')}
-          >
+          <button type="button" className="link" onClick={() => navigate('/forgot-password')}>
             Forgot your password?
           </button>
         </div>
-        <button type="submit" className="loginButton">
-          Log in
-        </button>
-        <button
-          type="button"
-          className="createAccountButton"
-          onClick={() => navigate('/signup')}
-        >
+        <button type="submit" className="loginButton">Log in</button>
+        <button type="button" className="createAccountButton" onClick={() => navigate('/signup')}>
           Create an account
         </button>
       </form>
