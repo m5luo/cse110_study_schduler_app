@@ -13,11 +13,25 @@ const SignUpForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('First Name:', firstName);
-    console.log('Last Name:', lastName);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    const newUser = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+
+    // Save new user to localStorage
+    localStorage.setItem(email, JSON.stringify(newUser));
+    alert('User registered successfully!');
+
+    // Redirect back to the sign-in page after successful registration
+    navigate('/');
   };
 
   return (
@@ -66,14 +80,8 @@ const SignUpForm: React.FC = () => {
           className="loginInput"
           required
         />
-        <button type="submit" className="submitButton">
-          Get Started
-        </button>
-        <button
-          type="button"
-          className="link"
-          onClick={() => navigate('/')}
-        >
+        <button type="submit" className="submitButton">Get Started</button>
+        <button type="button" className="link" onClick={() => navigate('/')}>
           Already have an account? Sign in!
         </button>
       </form>
