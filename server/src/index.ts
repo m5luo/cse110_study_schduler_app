@@ -1,3 +1,4 @@
+
 import { Response } from 'express';
 import { createEventEndpoints } from './event-endpoints';
 import { Event } from './types';
@@ -5,11 +6,8 @@ import initDB from './createTables';
 
 // import dotenv from 'dotenv';
 
-//For env File 
-// dotenv.config();
-
-const express = require("express")
-const cors = require("cors")
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const port = 8080;
@@ -32,3 +30,4 @@ app.listen(port, () => {
    
     createEventEndpoints(app, db);
    })();
+

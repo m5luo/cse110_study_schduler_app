@@ -15,6 +15,7 @@ const initDB = async () => {
      password TEXT NOT NULL
    );
  `);
+
  // Create a "events" table if it doesn't exist
  await db.exec(`
     CREATE TABLE IF NOT EXISTS events (

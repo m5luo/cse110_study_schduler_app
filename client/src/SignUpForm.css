@@ -1,0 +1,87 @@
+/* Container for the form */
+.signUpContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(#a2afc2, #d6d0db, #a2afc2);
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Form box */
+  .form {
+    background-color: #fff;
+    padding: 88px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Heading text */
+  .signUpHeading {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+  
+  /* Name input fields container */
+  .nameContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 28px;
+    margin-bottom: 16px;
+  }
+  
+  /* First and last name input fields */
+  .nameInput {
+    width: 185px;
+    padding: 16px;
+    margin-left: -16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  /* Email, password, and confirm password fields */
+  .loginInput {
+    width: 100%;
+    padding: 24px;
+    margin-bottom: 16px;
+    margin-left: -16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  /* Submit button */
+  .submitButton {
+    width: 112%;
+    padding: 16px;
+    margin-left: -16px;
+    margin-top: 24px;
+    border-radius: 24px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* "Already have an account" link */
+  .link {
+    display: block;
+    margin-top: 12px;
+    margin-left: -16px;
+    font-size: 16px;
+    text-decoration: underline;
+    color: #555;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  

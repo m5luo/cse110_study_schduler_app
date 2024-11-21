@@ -1,3 +1,4 @@
+
 export type Event = {
     title: string;
     color: string;
@@ -5,3 +6,10 @@ export type Event = {
     endTime: number;
     weekday: string;
 };
+
+export type User = {
+    username: string;
+    password: string;
+    id: number;
+};
+
