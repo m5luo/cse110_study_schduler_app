@@ -1,14 +1,19 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import initDB from "./createTables";
+import { createUserEndpoints } from "./user/user-endpoints";
 
-const express = require("express");
-const cors = require("cors");
+export const express = require("express");
+export const cors = require("cors");
+export const jwt = require('jsonwebtoken');
+export const bodyParser = require('body-parser');
+export const bcrypt = require('bcryptjs'); 
 
-const app = express();
-const port = 8080;
+export const app = express();
+export const port = 8080;
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 // Start the server
 app.listen(port, () => {
@@ -24,4 +29,7 @@ app.listen(port, () => {
    res.send({ "data": "Hello, TypeScript Express!" });
    res.status(200);
  });
+
+ createUserEndpoints(app, db);
+
 })();
