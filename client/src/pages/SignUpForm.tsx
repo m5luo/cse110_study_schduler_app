@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignUpForm.css';
-import { createUser } from './utils/user-utils';
+import '../css/SignUpForm.css';
+import { createUser } from '../utils/user-utils';
 
 const initUser = {
     username: "",

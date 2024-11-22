@@ -18,6 +18,22 @@ export const createUser = async (user: User): Promise<User> => {
 	return response.json();
 };
 
+export const updateUser = async (password: string): Promise<User> => {
+    // console.log(expense)
+    console.log(JSON.stringify(password))
+	const response = await fetch(`${API_BASE_URL}/reset-password`, {
+    	method: "POST",
+    	headers: {
+        	"Content-Type": "application/json",
+    	},
+    	body: JSON.stringify(password),
+	});
+	if (!response.ok) {
+    	throw new Error("Failed to register user");
+	}
+	return response.json();
+};
+
 export const loginUser = async (user: User): Promise<UserCredentials> => {
     console.log(JSON.stringify(user))
     const response = await fetch(`${API_BASE_URL}/login`, {

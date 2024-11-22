@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignInForm.css';
-import { loginUser } from './utils/user-utils';
+import '../css/SignInForm.css';
+import { loginUser } from '../utils/user-utils';
 
 const SignInForm: React.FC = () => {
   const navigate = useNavigate();
