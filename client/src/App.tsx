@@ -4,7 +4,7 @@ import SignInForm from './pages/SignInForm';
 import SignUpForm from './pages/SignUpForm';
 import ForgotPasswordForm from './pages/ForgotPasswordForm';
 import ResetPasswordForm from './pages/ResetPasswordForm';
-import HomePage from './HomePage';
+import HomePage from './pages/HomePage';
 
 const App: React.FC = () => {
   return (

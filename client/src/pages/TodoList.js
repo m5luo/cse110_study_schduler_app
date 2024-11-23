@@ -1,6 +1,6 @@
 // src/TodoList.js
 import React, { useState } from 'react';
-import './TodoList.css';
+import '../style/TodoList.css';
 
 const TodoList = ({ isOpen, onClose }) => {
   const [todos, setTodos] = useState([

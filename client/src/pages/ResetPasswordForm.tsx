@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import '../css/ResetPasswordForm.css';
+import '../style/ResetPasswordForm.css';
 import { updateUser } from '../utils/user-utils';
 
 const initUser = {

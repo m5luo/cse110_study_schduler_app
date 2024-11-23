@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/SignUpForm.css';
+import '../style/SignUpForm.css';
 import { createUser } from '../utils/user-utils';
 
 const initUser = {

@@ -1,9 +1,9 @@
-/* src/App.css */
+src/App.css
 /* Reset default margins and padding */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   font-family: 'Roboto', sans-serif;
 }
 
