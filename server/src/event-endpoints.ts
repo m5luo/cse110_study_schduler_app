@@ -11,7 +11,7 @@ export function createEventEndpoints(app: any, db: Database) {
         createEventServer(req, res, db);
 
     });
-    app.delete("/events/:title", (req: Request, res: Response) => {
+    app.delete("/events/:id", (req: Request, res: Response) => {
 
         deleteEvent(req, res, db);
  

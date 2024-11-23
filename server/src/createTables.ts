@@ -19,10 +19,10 @@ const initDB = async () => {
  // Create a "events" table if it doesn't exist
  await db.exec(`
     CREATE TABLE IF NOT EXISTS events (
-      title TEXT PRIMARY KEY,
-      color TEXT NOT NULL,
-      startTime INTEGER NOT NULL,
-      endTime INTEGER NOT NULL,
+      id INTEGER PRIMARY KEY,
+      title TEXT NOT NULL,
+      startTime TEXT NOT NULL,
+      endTime TEXT NOT NULL,
       weekday TEXT NOT NULL
     );
   `);

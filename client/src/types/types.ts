@@ -1,7 +1,7 @@
 export type Event = {
     title: string;
-    color: string;
-    startTime: number;
-    endTime: number;
+    id: number;
+    startTime: string;
+    endTime: string;
     weekday: string;
 };
