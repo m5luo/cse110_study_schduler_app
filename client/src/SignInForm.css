@@ -1,0 +1,92 @@
+/* Container for the form */
+.signInContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(#a2afc2, #d6d0db, #a2afc2);
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Form box */
+  .form {
+    background-color: #fff;
+    padding: 72px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Heading text */
+  .signInHeading {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+  
+  /* Input fields */
+  .signInInput {
+    width: 100%;
+    padding: 24px;
+    margin: 16px 0;
+    margin-left: -16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    display: block;
+  }
+  
+  /* Link container */
+  .linkContainer {
+    text-align: left;
+    margin-bottom: 16px;
+  }
+  
+  /* "Forgot your password?" button */
+  .link {
+    text-decoration: underline;
+    margin-left: -16px;
+    color: #555;
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* "Log in" button */
+  .loginButton {
+    width: 112%;
+    padding: 12px;
+    margin-top: 24px;
+    margin-left: -16px;
+    border-radius: 24px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+    display: block;
+  }
+  
+  /* "Create an account" button */
+  .createAccountButton {
+    width: 130%;
+    padding: 12px;
+    margin-top: 120px;
+    margin-bottom: -56px;
+    margin-left: -56px;
+    border-radius: 24px;
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+    display: block;
+  }
+  
