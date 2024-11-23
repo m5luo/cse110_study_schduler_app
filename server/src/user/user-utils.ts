@@ -133,15 +133,6 @@ export async function updatePassword (req: Request, res: Response, db: any) {
 
         await db.run('UPDATE users SET password = ? WHERE user_id = ?', [hashedPassword, decoded.userId.user_id]);
         res.status(200).json({ message: 'Password updated successfully' });
-
-        // Update the user's password
-        // await db.run('UPDATE users SET password = ? WHERE user_id = ?', [hashedPassword, decoded.userId.user_id], (err: any) => {
-        //         if (err) {
-        //             return res.status(500).json({ message: 'Database error' });
-        //         }
-        //         res.status(200).json({ message: 'Password updated successfully' });
-        //     }
-        // );
     } catch (err) {
         res.status(400).json({ message: `${err}; Invalid or expired token` });
     }

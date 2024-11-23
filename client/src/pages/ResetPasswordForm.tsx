@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import '../css/ResetPasswordForm.css';
 import { updateUser } from '../utils/user-utils';
 
@@ -12,22 +12,25 @@ const initUser = {
 const ResetPasswordForm: React.FC = () => {
   const navigate = useNavigate();
 
-  const [password, setPassword] = useState('');
+  const [searchParams] = useSearchParams();
+  const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [user, setUser] = useState(initUser)
 
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Password:', password);
+    console.log('Password:', newPassword);
     console.log('Confirm Password:', confirmPassword);
+
+    const token = searchParams.get('token') as string;
     
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
         return alert('Passwords must match');
     }
     else {
-        setUser({ ...user, password: password });
+        setUser({ ...user, password: newPassword });
         console.log(user);
-        updateUser(password);
+        updateUser(token, newPassword);
     }
   };
 
@@ -38,8 +41,8 @@ const handleSubmit = async (e: React.FormEvent) => {
         <input
           type="password"
           placeholder="New Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
           className="resetPasswordInput"
           required
         />
