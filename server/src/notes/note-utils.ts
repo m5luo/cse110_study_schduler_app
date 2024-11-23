@@ -43,6 +43,11 @@ export const updateNote = async (req: Request, res: Response, db: Database) => {
             return res.status(400).send({ error: "Missing required fields" });
         }
 
+        const noteExists = await db.get(`SELECT * FROM notes WHERE note_id = ?`, [noteId]);
+        if (!noteExists) {
+            return res.status(404).send({ error: "Note not found" });
+        }
+
         const result = await db.run(
             `UPDATE notes SET title = ?, content = ? WHERE note_id = ?`,
             [title, content, noteId]
@@ -58,6 +63,11 @@ export const deleteNote = async (req: Request, res: Response, db: Database) => {
         const { noteId } = req.params;
         if (!noteId) {
             return res.status(400).send({ error: "Missing required fields" });
+        }
+        
+        const noteExists = await db.get(`SELECT * FROM notes WHERE note_id = ?`, [noteId]);
+        if (!noteExists) {
+            return res.status(404).send({ error: "Note not found" });
         }
         
         const result = await db.run(
