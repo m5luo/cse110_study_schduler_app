@@ -5,6 +5,7 @@ import { Todo } from "../types";
 export async function createTodoServer(req: Request, res: Response, db: Database) {
   const { id, content, completed } = req.body;
 
+  // check if content exits
   if (!content) {
     return res.status(400).send({ error: "Missing required field: content" });
   }
@@ -41,10 +42,12 @@ export async function updateTodoItem(req: Request, res: Response, db: Database) 
     return res.status(404).send({ error: "Todo Item not found" });
   }
 
+  // check if content and completed valid
   if (content === undefined || completed === undefined) {
     return res.status(400).send({ message: "No fields to update provided." });
   }
 }
+
 export async function getTodoList(req: Request, res: Response, db: Database) {
   const todoList = await db.all("SELECT * FROM todolist");
   res.status(200).send({ data: todoList });

@@ -11,7 +11,7 @@ const initDB = async () => {
   // Create the "todoList" table if it doesn't exist
   await db.exec(`
     CREATE TABLE IF NOT EXISTS todolist (
-      id TEXT NOT NULL,
+      id TEXT PRIMARY KEY,
       content TEXT NOT NULL,
       completed INTEGER NOT NULL DEFAULT 0
     );
