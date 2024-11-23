@@ -4,6 +4,7 @@ import SignInForm from './pages/SignInForm';
 import SignUpForm from './pages/SignUpForm';
 import ForgotPasswordForm from './pages/ForgotPasswordForm';
 import ResetPasswordForm from './pages/ResetPasswordForm';
+import HomePage from './HomePage';
 
 const App: React.FC = () => {
   return (
@@ -13,9 +14,11 @@ const App: React.FC = () => {
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} /> {/* Add this route */}
         <Route path="/reset-password" element={<ResetPasswordForm />} />
+        <Route path="/home" element={<HomePage />} /> 
       </Routes>
     </Router>
   );
 };
 
 export default App;
+
