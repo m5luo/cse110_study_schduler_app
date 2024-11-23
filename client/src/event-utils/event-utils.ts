@@ -13,6 +13,7 @@ export const createEvent = async (event: Event): Promise<Event> => {
   if (!response.ok) {
     throw new Error("Failed to create event");
   }
+  
   return response.json();
 };
 

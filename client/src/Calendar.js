@@ -162,7 +162,7 @@ const Calendar = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Start Time</label>
+                <label className="form-label">Start Time
                 <select
                   value={formData.startTime}
                   onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
@@ -173,10 +173,11 @@ const Calendar = () => {
                     <option key={time} value={time}>{time}</option>
                   ))}
                 </select>
+                </label>
               </div>
 
               <div className="form-group">
-                <label className="form-label">End Time</label>
+                <label className="form-label">End Time
                 <select
                   value={formData.endTime}
                   onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
@@ -187,10 +188,11 @@ const Calendar = () => {
                     <option key={time} value={time}>{time}</option>
                   ))}
                 </select>
+                </label>
               </div>
 
               <div className="form-group">
-                <label className="form-label">Day</label>
+                <label className="form-label">Day
                 <select
                   value={formData.weekday}
                   onChange={(e) => setFormData({ ...formData, weekday: e.target.value })}
@@ -201,6 +203,7 @@ const Calendar = () => {
                     <option key={weekday} value={weekday}>{weekday}</option>
                   ))}
                 </select>
+                </label>
               </div>
 
               <button type="submit" className="submit-button">

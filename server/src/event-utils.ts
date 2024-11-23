@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { Database } from "sqlite";
 
 export async function createEventServer(req: Request, res: Response, db: Database) {
-  const { title, id, startTime, endTime, weekday } = req.body;
+  const { id, title, startTime, endTime, weekday } = req.body;
 
   if (!title || !id || !startTime || !endTime || !weekday) {
     return res.status(400).send({ error: "Missing required fields" });
@@ -15,7 +15,7 @@ export async function createEventServer(req: Request, res: Response, db: Databas
     return res.status(400).send({ error: `Event could not be created, + ${error}` });
 };
 
-res.status(201).send({ title, startTime, endTime, weekday });
+res.status(201).send({ id, title, startTime, endTime, weekday });
 }
 
 export async function deleteEvent(req: Request, res:Response, db:Database) {
