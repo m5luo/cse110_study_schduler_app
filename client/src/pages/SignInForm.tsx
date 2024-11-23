@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignInForm.css';
-import { loginUser } from './utils/user-utils';
+import '../style/SignInForm.css';
+import { loginUser } from '../utils/user-utils';
 
 const SignInForm: React.FC = () => {
   const navigate = useNavigate();
@@ -35,6 +35,7 @@ const SignInForm: React.FC = () => {
       // Store the token in local storage
       localStorage.setItem('token', token);
       console.log(response)
+      navigate('/home')
 
       // Redirect to the protected route
       // ...

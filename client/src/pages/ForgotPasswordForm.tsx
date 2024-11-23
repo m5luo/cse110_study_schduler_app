@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './ForgotPasswordForm.css';
+import '../style/ForgotPasswordForm.css';
+import { sendEmail } from '../utils/user-utils';
 
 const ForgotPasswordForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ const ForgotPasswordForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Password reset email sent to:', email);
+    sendEmail(email);
   };
 
   return (
