@@ -5,8 +5,11 @@ import SignUpForm from './pages/SignUpForm';
 import ForgotPasswordForm from './pages/ForgotPasswordForm';
 import ResetPasswordForm from './pages/ResetPasswordForm';
 import HomePage from './pages/HomePage';
+import { AppProvider } from './context/AppContext';
+    
 
-const App: React.FC = () => {
+
+const App = () => {
   return (
     <Router>
       <Routes>
@@ -21,4 +24,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

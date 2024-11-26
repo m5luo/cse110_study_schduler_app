@@ -9,4 +9,12 @@ export type UserCredentials = {
     username: string,
     password: string,
     token: string
-}
+};
+
+export type Event = {
+    title: string;
+    id: number;
+    startTime: string;
+    endTime: string;
+    weekday: string;
+};

@@ -1,6 +1,11 @@
-import { Request, Response } from "express";
-import initDB from "./createTables";
-import { createUserEndpoints } from "./user/user-endpoints";
+
+import { Response } from 'express';
+import { createUserEndpoints } from './user/user-endpoints';
+import { createEventEndpoints } from './event-endpoints';
+import { Event } from './types';
+import initDB from './createTables';
+
+// import dotenv from 'dotenv';
 
 export const express = require("express");
 export const cors = require("cors");
@@ -17,19 +22,27 @@ app.use(bodyParser.json());
 
 // Start the server
 app.listen(port, () => {
- console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
 });
 
-// Initialize the database and start the server
 (async () => {
- const db = await initDB();
-
- // Root endpoint to get test if the server is running
- app.get("/", (req: Request, res: Response) => {
-   res.send({ "data": "Hello, TypeScript Express!" });
-   res.status(200);
- });
-
- createUserEndpoints(app, db);
-
+    const db = await initDB();
+   
+    // Root endpoint to get test if the server is running
+    app.get("/", (req: Request, res: Response) => {
+      res.status(200).send({ "data": "Hello, TypeScript Express!" });
+    });
+   
+    createUserEndpoints(app, db);
+    createEventEndpoints(app, db);
 })();
+
+//  // Root endpoint to get test if the server is running
+//  app.get("/", (req: Request, res: Response) => {
+//    res.send({ "data": "Hello, TypeScript Express!" });
+//    res.status(200);
+//  });
+
+//  createUserEndpoints(app, db);
+
+// })();
