@@ -4,20 +4,40 @@ html, body {
   height: 100%;
 }
 
-.calendar-page-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 .calendar-container {
-  display: flex;
-  gap: 40px;
-  padding:20px;
+  padding: 20px;
   max-width: 1600px;
   margin: auto;
-  overflow-y: auto;
+}
+
+.view-toggle {
+  display: flex;
+  margin-bottom: 20px;
+  width: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  
+}
+
+.view-button {
+  flex: 1;
+  padding: 22px 40px;
+  border: none;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.view-button.active {
+  background-color: black;
+  color: white;
+}
+
+.main-content {
+  display: flex;
+  gap: 40px;
 }
 
 .calendar-grid {
@@ -43,7 +63,7 @@ html, body {
 }
 
 .time-cell {
-  padding: 6px;
+  padding: 11px;
   border-bottom: 1px solid #e2e8f0;
   border-right: 1px solid #e2e8f0;
   color: #2d3748;
@@ -114,7 +134,6 @@ html, body {
   cursor: pointer;
   padding: 2px;
   font-size: 12px;
- 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,6 +144,7 @@ html, body {
   height: 12px;
   display: block;
 }
+
 .delete-button:hover,
 .share-button:hover {
   opacity: 0.8;
@@ -135,14 +155,6 @@ html, body {
   flex-direction: column;
   gap: 20px;
   align-items: flex-start;
-}
-
-.right-side-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: sticky;
-  top: 20px;
 }
 
 .form-container {
