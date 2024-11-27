@@ -1,10 +1,10 @@
 // src/components/WeeklyCalendar.js
 import React, { useState } from 'react';
-import './Calendar.css';
+import '../style/Calendar.css';
 import TodoList from './TodoList';
-import shareIcon from './share.png';
-import deleteIcon from './trash-can.png';
-import SharePopup from './SharePopup';
+import shareIcon from '../images/share.png';
+import deleteIcon from '../images/trash-can.png';
+import SharePopup from '../images/share.png';
 import DayView from './DayView';
 
 const WeeklyCalendar = () => {
