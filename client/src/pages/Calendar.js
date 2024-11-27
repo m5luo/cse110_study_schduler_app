@@ -25,7 +25,8 @@ const Calendar = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const eventsFromBackend = await fetchEvents();
+        const token = localStorage.getItem('token');
+        const eventsFromBackend = await fetchEvents(token);
         setEvents(eventsFromBackend);
     };
   
@@ -50,6 +51,8 @@ const Calendar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.title && formData.startTime && formData.endTime && formData.weekday) {
+        const token = localStorage.getItem('token');
+        console.log(token);
         const newEvent = {
             title: formData.title,
             id: Date.now(),
@@ -57,16 +60,17 @@ const Calendar = () => {
             endTime: formData.endTime,
             weekday: formData.weekday,
         };
-        const createdEvent = await createEvent(newEvent);
+        const createdEvent = await createEvent(token, newEvent);
         setEvents([...events, createdEvent]);
         setFormData({ title: '', startTime: '', endTime: '', weekday: '' });
     }
   };
 
   const handleDelete = async (eventId) => {
+    const token = localStorage.getItem('token');
     const eventToDelete = events.find(event => event.id == eventId);
     if (eventToDelete) {
-        await deleteEvent(eventToDelete.id)
+        await deleteEvent(token, eventToDelete.id)
         setEvents(events.filter(event => event.id !== eventId));
     }
   };
