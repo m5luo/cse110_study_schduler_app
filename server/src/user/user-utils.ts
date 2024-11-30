@@ -42,7 +42,7 @@ export async function createUser (req: Request, res: Response, db: any) {
         let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
         const token = generateAccessToken({ user_id: row.use_id });
         // let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
-        res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "access_token":  token });
+        res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "token":  token });
     } catch (error) {
         return res.status(400).send({ error: `User could not be created ${error}` });
     };
@@ -108,7 +108,7 @@ export async function sendResetPassEmail (req: Request, res: Response, db: any) 
             if (err) {
                 return res.status(500).json({ message: `${err}` });
             }
-            res.status(200).json({ message: 'Password reset link sent' });
+            res.status(200).json({ "user_id": userId });
         });
     } catch (error) {
         return res.status(400).send({ error: `Received ${error} when sending email` });
@@ -133,7 +133,7 @@ export async function updatePassword (req: Request, res: Response, db: any) {
         const hashedPassword = bcrypt.hashSync(newPassword);
 
         await db.run('UPDATE users SET password = ? WHERE user_id = ?', [hashedPassword, decoded.userId.user_id]);
-        res.status(200).json({ message: 'Password updated successfully' });
+        res.status(200).json({ "user_id": decoded.userId.user_id });
     } catch (err) {
         res.status(400).json({ message: `${err}; Invalid or expired token` });
     }

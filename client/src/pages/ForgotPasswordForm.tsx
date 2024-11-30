@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../style/ForgotPasswordForm.css';
 import { sendEmail } from '../utils/user-utils';
+import { responsivePropType } from 'react-bootstrap/esm/createUtilityClasses';
 
-const ForgotPasswordForm: React.FC = () => {
+const ForgotPasswordForm: React.FC = () => { 
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Password reset email sent to:', email);
-    sendEmail(email);
+    const response = await sendEmail(email);
+    if (!response.user_id) {
+       return alert("Something went wrong when sending email.") 
+    }
+    navigate('/email-sent')
   };
 
   return (
