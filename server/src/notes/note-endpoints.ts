@@ -25,7 +25,7 @@ export function createNoteEndpoints(app: any, db: Database) {
 
    });
 
-   // curl -X DELETE http://localhost:8080/note/1 
+   // curl -X DELETE http://localhost:8080/note/2
    app.delete("/note/:noteId", (req: Request, res: Response) => {
     
         deleteNote(req, res, db);
