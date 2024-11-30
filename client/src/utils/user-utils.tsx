@@ -2,7 +2,7 @@ import { API_BASE_URL } from "../constants";
 import { User, UserCredentials } from "../types/types";
 
 // Function to create an user in the backend. Method: POST
-export const createUser = async (user: User): Promise<User> => {
+export const createUser = async (user: User): Promise<UserCredentials> => {
     // console.log(expense)
     console.log(JSON.stringify(user))
 	const response = await fetch(`${API_BASE_URL}/register`, {
@@ -18,7 +18,7 @@ export const createUser = async (user: User): Promise<User> => {
 	return response.json();
 };
 
-export const updateUser = async (token: string, password: string): Promise<User> => {
+export const updateUser = async (token: string, password: string): Promise<UserCredentials> => {
     // console.log(expense)
     console.log(JSON.stringify(password))
 	const response = await fetch(`${API_BASE_URL}/reset-password`, {
@@ -34,7 +34,7 @@ export const updateUser = async (token: string, password: string): Promise<User>
 	return response.json();
 };
 
-export const sendEmail = async (email: string): Promise<User> => {
+export const sendEmail = async (email: string): Promise<UserCredentials> => {
     // console.log(expense)
     console.log(JSON.stringify(email))
 	const response = await fetch(`${API_BASE_URL}/forgot-password`, {
@@ -45,7 +45,7 @@ export const sendEmail = async (email: string): Promise<User> => {
     	body: JSON.stringify({"email": email}),
 	});
 	if (!response.ok) {
-    	throw new Error("Failed to register user");
+    	throw new Error("Failed to send email");
 	}
 	return response.json();
 };

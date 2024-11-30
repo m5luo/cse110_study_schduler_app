@@ -5,7 +5,7 @@ export type User = {
 };
 
 export type UserCredentials = {
-    id: number,
+    user_id: number,
     username: string,
     password: string,
     token: string

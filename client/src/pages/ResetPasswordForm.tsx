@@ -30,7 +30,11 @@ const handleSubmit = async (e: React.FormEvent) => {
     else {
         setUser({ ...user, password: newPassword });
         console.log(user);
-        updateUser(token, newPassword);
+        const response = await updateUser(token, newPassword);
+        if (!response.user_id) {
+            return alert("Something went wrong when resetting password.") 
+        }
+        navigate('/password-reset-message')
     }
   };
 
