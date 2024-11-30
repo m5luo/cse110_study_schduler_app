@@ -91,5 +91,34 @@ describe('Sign in page tests', () => {
         const homePageElement = await screen.findByText(/Calendar/i);
         expect(homePageElement).toBeInTheDocument();
       });
+
+      test('Unsuccessful login does not submit credentials and does not navigate to home page', async () => {
+        mockLoginUser.mockRejectedValue(new Error('Failed to login user'));
+
+        window.history.pushState({}, 'Sign In Page', '/');
+        render(<App />);
+
+        const usernameInput = screen.getByPlaceholderText(/Username/i);
+        const passwordInput = screen.getByPlaceholderText("Password");
+        const signInButton = screen.getByLabelText('login-button');
+    
+        fireEvent.change(usernameInput, { target: { value: 'NonExistentUser' } });
+        fireEvent.change(passwordInput, { target: { value: 'nonpassword' } });
+        fireEvent.click(signInButton);
+    
+        await waitFor(() => {
+          expect(userUtils.loginUser).toHaveBeenCalledWith({
+            email: "",
+            username: 'NonExistentUser',
+            password: 'nonpassword',
+          });
+          expect(userUtils.loginUser).toHaveBeenCalledTimes(1);
+        });
+    
+        expect(localStorage.getItem('token')).toBeNull();
+
+        const homePageElement = await screen.queryByText(/Calendar/i);
+        expect(homePageElement).not.toBeInTheDocument();
+      });
 });
 
