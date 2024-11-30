@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import profileIcon from "./images/profile-icon.jpg";
-import "./NotesPage.css";
+import profileIcon from "../images/profile-icon.jpg";
+import "../style/NotesPage.css";
 import { useLocation } from "react-router-dom";
 
 interface Note {
