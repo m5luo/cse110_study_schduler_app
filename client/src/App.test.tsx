@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('save event button exists', () => {
-  render(<App />);
-  const saveButton = screen.getByText(/Save/i);
-  expect(saveButton).toBeInTheDocument();
+test('renders learn react link', () => {
+    render(<App />);
+    const linkElement = screen.getByText(/Sign in/i);
+    expect(linkElement).toBeInTheDocument();
 });
