@@ -1,30 +1,67 @@
 // src/TodoList.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './TodoList.css';
+import { getTodos, createTodo, deleteTodo, updateTodo } from './todo-utils/todo-utils';
 
 const TodoList = ({ isOpen, onClose }) => {
-  const [todos, setTodos] = useState([
-    { id: 1, text: 'ITEM 1', completed: false },
-    { id: 2, text: 'ITEM 2', completed: false },
-    { id: 3, text: 'ITEM 3', completed: false },
-  ]);
+  const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
 
-  const handleAddTodo = () => {
+  // fetch todolist items
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const todos = await getTodos(); // fetch todos from the backend
+        console.log(todos);
+        setTodos(todos);
+      } catch (error) {
+        console.error('Failed to fetch todos:', error);
+      }
+    };
+    fetchTodos();
+  }, []);
+
+  // handle add new todo item
+  const handleAddTodo = async () => {
     if (newTodo.trim()) {
-      setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
-      setNewTodo('');
+      const newTodoItem = {
+        id: Math.floor(Math.random() * 100).toString(),
+        content: newTodo,
+        completed: false,
+      };
+      try {
+        const createdTodo = await createTodo(newTodoItem); // create todo in the backend
+        const updatedTodo = await getTodos();
+        setTodos(updatedTodo);
+      } catch (error) {
+        console.error('Failed to create todo:', error);
+      }
     }
   };
 
-  const handleToggle = (id) => {
-    setTodos(todos.map(todo => 
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
+  // handle todolist item checkbox
+  const handleToggle = async (id) => {
+    const updatedTodo = todos.find(todo => todo.id === id);  // Find the todo item by id
+    const updatedCompleted = !updatedTodo.completed;  // Toggle the completed status
+  
+    try {
+      await updateTodo(id, updatedCompleted);  // Call the updateTodo function
+      setTodos(todos.map(todo =>
+        todo.id === id ? { ...todo, completed: updatedCompleted } : todo  // Update the state
+      ));
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
   };
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id));
+  // handle deleting todolist item
+  const handleDelete = async (id) => {
+    try {
+      await deleteTodo(id);  // Call the API to delete the todo
+      setTodos(todos.filter(todo => todo.id !== id));  // Update the local state
+    } catch (error) {
+      console.error('Failed to delete todo:', error);
+    }
   };
 
   if (!isOpen) return null;
@@ -35,7 +72,7 @@ const TodoList = ({ isOpen, onClose }) => {
         <h2>WEEKLY TODO LIST 📋</h2>
         <button onClick={onClose} className="close-button">×</button>
       </div>
-      
+
       <div className="todo-list">
         {todos.map(todo => (
           <div key={todo.id} className="todo-item">
@@ -46,7 +83,7 @@ const TodoList = ({ isOpen, onClose }) => {
               className="todo-checkbox"
             />
             <span className={todo.completed ? 'todo-text completed' : 'todo-text'}>
-              {todo.text}
+              {todo.content}
             </span>
             <button
               onClick={() => handleDelete(todo.id)}

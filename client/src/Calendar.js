@@ -4,6 +4,7 @@ import './Calendar.css';
 import TodoList from './TodoList';
 import shareIcon from './images/share.png';
 import deleteIcon from './images/trash-can.png';
+
 const Calendar = () => {
   const [events, setEvents] = useState([]);
   const [isTodoListOpen, setIsTodoListOpen] = useState(false);

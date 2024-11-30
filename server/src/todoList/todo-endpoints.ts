@@ -1,5 +1,5 @@
 import { Database } from "sqlite";
-import { createTodoServer, deleteTodo, getTodoList, updateTodoItem } from "./todo-utils";
+import { createTodoServer, deleteTodo, getTodoList, updateTodo } from "./todo-utils";
 import { Request, Response } from "express";
 
 export function createTodoEndpoints(app: any, db: Database) {
@@ -20,6 +20,6 @@ export function createTodoEndpoints(app: any, db: Database) {
 
   // Update a todo list item
   app.put("/todolist/:id", (req: Request, res: Response) => {
-    updateTodoItem(req, res, db);
+    updateTodo(req, res, db);
   });
 }
