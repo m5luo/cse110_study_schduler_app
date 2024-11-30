@@ -32,12 +32,17 @@ export const deleteEvent = async (token: string, title: string): Promise<void> =
 
 // Function to get all expenses from the backend. Method: GET
 export const fetchEvents = async (token: string): Promise<Event[]> => {
+  if (!token) {
+        throw new Error("No authentication token provided");
+  }
+
   const response = await fetch(`${API_BASE_URL}/events`, {
     method: "GET",
     headers: {
         "Authorization": `Bearer ${token}`,
     },
   });
+  
   if (!response.ok) {
     throw new Error("Failed to fetch events");
   }

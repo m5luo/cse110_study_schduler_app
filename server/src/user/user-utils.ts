@@ -40,7 +40,7 @@ export async function createUser (req: Request, res: Response, db: any) {
         const hashedPassword = bcrypt.hashSync(req.body.password)
         await db.run('INSERT INTO users (username, password, email) VALUES (?,?,?)', [req.body.username, hashedPassword, req.body.email]);
         let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
-        const token = generateAccessToken({ user_id: row.use_id });
+        const token = generateAccessToken({ user_id: row.user_id });
         // let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
         res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "access_token":  token });
     } catch (error) {
