@@ -31,15 +31,18 @@ const SignInForm: React.FC = () => {
     try {
       const response = await loginUser({ username: username, password: password, email: "" });
       const token = response.token;
-      console.log(response.token)
+      
+      if (!token) {
+        return alert('Invalid username or password');
+      }
 
       // Store the token in local storage
       localStorage.setItem('token', token);
       console.log(response)
-      navigate('/home')
+      console.log(response.token)
 
       // Redirect to the protected route
-      // ...
+      navigate('/home')
     } catch (err: any) {
       console.log(err.message);
     }
