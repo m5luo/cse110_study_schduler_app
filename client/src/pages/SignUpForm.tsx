@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignUpForm.css';
-import { createUser } from './utils/user-utils';
+import '../style/SignUpForm.css';
+import { createUser } from '../utils/user-utils';
 
 const initUser = {
     username: "",
@@ -35,7 +35,15 @@ const SignUpForm: React.FC = () => {
     else {
         setUser({ ...user, username: username, password: password });
         console.log(user);
-        createUser({ username: username, password: password, email: email });
+        const response = await createUser({ username: username, password: password, email: email });
+        // const response = await loginUser({ username: username, password: password, email: "" });
+        const token = response.token;
+
+        if (!token) {
+            return alert('Something went wrong when creating account.');
+        }
+
+        navigate('/account-created')
     }
   };
 

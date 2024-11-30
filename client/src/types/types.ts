@@ -5,8 +5,16 @@ export type User = {
 };
 
 export type UserCredentials = {
-    id: number,
+    user_id: number,
     username: string,
     password: string,
     token: string
-}
+};
+
+export type Event = {
+    title: string;
+    id: number;
+    startTime: string;
+    endTime: string;
+    weekday: string;
+};

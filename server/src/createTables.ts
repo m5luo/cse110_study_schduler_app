@@ -16,6 +16,19 @@ const initDB = async () => {
      email TEXT NOT NULL
    );
  `);
+
+ // Create a "events" table if it doesn't exist
+ await db.exec(`
+    CREATE TABLE IF NOT EXISTS events (
+      id INTEGER PRIMARY KEY,
+      title TEXT NOT NULL,
+      startTime TEXT NOT NULL,
+      endTime TEXT NOT NULL,
+      weekday TEXT NOT NULL,
+      user_id INT NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES users(user_id)
+    );
+  `);
  return db;
 };
 

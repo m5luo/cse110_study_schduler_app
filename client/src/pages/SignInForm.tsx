@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignInForm.css';
-import { loginUser } from './utils/user-utils';
+import '../style/SignInForm.css';
+import { loginUser } from '../utils/user-utils';
 
 const SignInForm: React.FC = () => {
   const navigate = useNavigate();
@@ -31,13 +31,18 @@ const SignInForm: React.FC = () => {
     try {
       const response = await loginUser({ username: username, password: password, email: "" });
       const token = response.token;
+      
+      if (!token) {
+        return alert('Invalid username or password');
+      }
 
       // Store the token in local storage
       localStorage.setItem('token', token);
       console.log(response)
+      console.log(response.token)
 
       // Redirect to the protected route
-      // ...
+      navigate('/home')
     } catch (err: any) {
       console.log(err.message);
     }
