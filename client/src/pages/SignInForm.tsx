@@ -31,6 +31,7 @@ const SignInForm: React.FC = () => {
     try {
       const response = await loginUser({ username: username, password: password, email: "" });
       const token = response.token;
+      console.log(response.token)
 
       // Store the token in local storage
       localStorage.setItem('token', token);

@@ -13,7 +13,70 @@ body {
 }
 
 .app {
+  padding: 0;
+}
+
+.app {
   min-height: 100vh;
+  position: relative;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevents horizontal scroll */
+}
+
+/* Background image with opacity */
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('./images/backgroundpic.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.25;
+  z-index: -1;
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #CCE5FF;
+  border-bottom: 2px solid #e2e8f0;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.nav-left {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-item {
+  padding: 8px 16px;
+  font-size: 26px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav-item.active {
+  background-color: #bfdbfe;
+  color: black;
+}
+
+.profile-icon {
+  width: 86px;
+  height: 85px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
   position: relative;
   padding: 0;
   width: 100%;
@@ -75,6 +138,7 @@ body {
   border-radius: 50%;
   display: flex;
   align-items: center;
+  align-items: center;
   justify-content: center;
 }
 
@@ -90,6 +154,25 @@ body {
   padding: 20px;
 }
 
+.profile-icon svg {
+  width: 47px;
+  height: 50px;
+}
+
+/* Content area */
+.app-content {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
+
+.app-title {
+  margin: 0;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
 .app-title {
   margin: 0;
   padding: 20px;

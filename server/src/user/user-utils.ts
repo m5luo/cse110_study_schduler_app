@@ -10,8 +10,8 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 
-export function generateAccessToken(username: any) {
-    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+export function generateAccessToken(user_id: any) {
+    return jwt.sign(user_id, process.env.TOKEN_SECRET, { expiresIn: '1d' });
 }
 
 export function authenticateToken(req: Request, res: Response, next: any) {
@@ -39,8 +39,9 @@ export async function createUser (req: Request, res: Response, db: any) {
     try {
         const hashedPassword = bcrypt.hashSync(req.body.password)
         await db.run('INSERT INTO users (username, password, email) VALUES (?,?,?)', [req.body.username, hashedPassword, req.body.email]);
-        const token = generateAccessToken({ username: req.body.username });
         let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
+        const token = generateAccessToken({ user_id: row.use_id });
+        // let row = await db.get(`SELECT * FROM users WHERE username = ?`, [req.body.username]);
         res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "access_token":  token });
     } catch (error) {
         return res.status(400).send({ error: `User could not be created ${error}` });
@@ -59,9 +60,9 @@ export async function loginUser (req: Request, res: Response, db: any) {
         if (!result) {
             return res.send({ error: `Password incorrect` })
         }
-        const token = generateAccessToken({ username: req.body.username });
+        const token = generateAccessToken({ user_id: row.user_id });
         // res.send("User logged in!")
-        res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "access_token":  token});
+        res.status(200).send({ "user_id": row.user_id, "username":  req.body.username, "token":  token});
     } catch (error) {
         return res.status(400).send({ error: `User could not be logged in ${error}` });
     };
