@@ -33,11 +33,10 @@ export async function deleteTodo(req: Request, res: Response, db: Database) {
 }
 
 export async function updateTodo(req: Request, res: Response, db: Database) {
-  console.log('Request body:', req.body);  // Log the body of the request to verify it contains the correct data
-  console.log('Todo ID:', req.params.id);  // Log the todo ID from the URL
-
   const todoId = req.params.id;
-  const completed  = req.body.completed;
+  let completed  = req.body.completed;
+
+  completed = completed ? 1 : 0;
   
   const todoItem = await db.get("SELECT * FROM todolist WHERE id = ?;", [todoId]);
 
@@ -45,11 +44,8 @@ export async function updateTodo(req: Request, res: Response, db: Database) {
   if (!todoItem) {
     return res.status(404).send({ error: "Todo Item not found" });
   }
-
-  // Update the todo item with the new 'completed' status
+  
   await db.run("UPDATE todolist SET completed = ? WHERE id = ?;", [completed, todoId]);
-
-  // Respond with the updated todo item data
   res.status(200).send({ message: "Todo updated successfully", id: todoId, completed });
 }
 

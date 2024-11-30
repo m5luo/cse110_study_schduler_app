@@ -25,7 +25,7 @@ const TodoList = ({ isOpen, onClose }) => {
   const handleAddTodo = async () => {
     if (newTodo.trim()) {
       const newTodoItem = {
-        id: Math.floor(Math.random() * 100).toString(),
+        id: Date.now() + Math.random().toString(36).substring(2, 6),
         content: newTodo,
         completed: false,
       };
@@ -33,6 +33,7 @@ const TodoList = ({ isOpen, onClose }) => {
         const createdTodo = await createTodo(newTodoItem); // create todo in the backend
         const updatedTodo = await getTodos();
         setTodos(updatedTodo);
+        setNewTodo('');
       } catch (error) {
         console.error('Failed to create todo:', error);
       }
@@ -42,8 +43,8 @@ const TodoList = ({ isOpen, onClose }) => {
   // handle todolist item checkbox
   const handleToggle = async (id) => {
     const updatedTodo = todos.find(todo => todo.id === id);  // Find the todo item by id
-    const updatedCompleted = !updatedTodo.completed;  // Toggle the completed status
-  
+    let updatedCompleted = !updatedTodo.completed;  // Toggle the completed status
+
     try {
       await updateTodo(id, updatedCompleted);  // Call the updateTodo function
       setTodos(todos.map(todo =>
