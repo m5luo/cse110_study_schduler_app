@@ -1,6 +1,6 @@
 import { createEventServer, deleteEvent, getEvents } from "./event-utils";
 import { Request, Response } from "express";
-import { Event } from "./types";
+import { Event } from "../types";
 import { Database } from "sqlite";
 
 const jwt = require('jsonwebtoken');
@@ -23,16 +23,6 @@ export function authenticateToken(req: Request, res: Response, next: any) {
     } catch (err) {
         res.status(400).json({ message: `${err}; Invalid or expired token` });
     }
-  
-    // jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-    //   console.log(err)
-  
-    //   if (err) return res.send(403)
-  
-    //   req.body.user_id = user.userId;
-  
-    //   next()
-    // })
 }
 
 export function createEventEndpoints(app: any, db: Database) {

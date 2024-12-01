@@ -1,7 +1,7 @@
 
 import { Response } from 'express';
 import { createUserEndpoints } from './user/user-endpoints';
-import { createEventEndpoints } from './event-endpoints';
+import { createEventEndpoints } from './event/event-endpoints';
 import { Event } from './types';
 import initDB from './createTables';
 

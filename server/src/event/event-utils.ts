@@ -1,15 +1,14 @@
-import { Event } from "./types";
+import { Event } from "../types";
 import { Request, Response } from "express";
 import { Database } from "sqlite";
 
 const jwt = require('jsonwebtoken');
 
 export function generateAccessToken(user_id: any) {
-    return jwt.sign({ user_id: user_id }, process.env.TOKEN_SECRET, { expiresIn: process.env.RESET_TOKEN_EXPIRY });
+  return jwt.sign({ user_id: user_id }, process.env.TOKEN_SECRET, { expiresIn: process.env.RESET_TOKEN_EXPIRY });
 }
 
 export async function createEventServer(req: Request, res: Response, db: Database) {
-//   const { token, event } = req.body;
   const userId = req.body.user_id;
   const { title, id, startTime, endTime, weekday } = req.body;
 
@@ -41,8 +40,8 @@ export async function deleteEvent(req: Request, res:Response, db:Database) {
 }
 
 export async function getEvents(req: Request, res: Response, db: Database) {
-    const userId = req.body.user_id;
+  const userId = req.body.user_id;
 
-    const events = await db.all('SELECT * FROM events WHERE user_id = ?;', [userId])
-    res.status(200).send({"data": events});
+  const events = await db.all('SELECT * FROM events WHERE user_id = ?;', [userId])
+  res.status(200).send({"data": events});
 }
