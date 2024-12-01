@@ -14,8 +14,6 @@ export function authenticateToken(req: Request, res: Response, next: any) {
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
-        console.log(decoded)
-
         req.body.user_id = decoded.user_id;
 
         next()

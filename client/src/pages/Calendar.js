@@ -31,7 +31,7 @@ const Calendar = () => {
     };
   
     fetchData();
-  }, []);
+  }, [events]);
 
   const convertTo24Hour = (timeStr) => {
     if (!timeStr) return null;
