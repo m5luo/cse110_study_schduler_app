@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import profileIcon from "../images/profile-icon.jpg";
 import "../style/NotesPage.css";
 import { useLocation } from "react-router-dom";
@@ -10,6 +11,7 @@ interface Note {
 }
 
 const NotesPage: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation(); // Access the passed label name of notes
   const labelName = location.state?.labelName || "Default Label";
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -29,6 +31,11 @@ const NotesPage: React.FC = () => {
 
   /* Ref for handling clicking outside popups to close them. */
   const popupRef = useRef<HTMLDivElement | null>(null);
+
+  /* Variables to handle if there are unsaved changes in the note editor */
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showSavePrompt, setShowSavePrompt] = useState(false);
+  const [pendingNote, setPendingNote] = useState<Note | null>(null);
 
   /* Close the options popup when clicking outside it. */
   useEffect(() => {
@@ -54,6 +61,16 @@ const NotesPage: React.FC = () => {
 
   /* Create a new note with a default title and content. */
   const createNewNote = () => {
+    if (hasUnsavedChanges) { //handle unsaved changes
+      setShowSavePrompt(true);
+      setPendingNote(null);
+    } else {
+      proceedToCreateNewNote();
+    }
+  };
+
+  //create a new note after handling any unsaved changes
+  const proceedToCreateNewNote = () => {
     const newNote: Note = {
       id: Date.now(),
       title: "Untitled Note",
@@ -63,13 +80,20 @@ const NotesPage: React.FC = () => {
     setSelectedNote(newNote);
     setCurrentTitle("Untitled Note");
     setCurrentContent("");
+    setHasUnsavedChanges(false);
   };
 
-   /* Select a specific note and load its title and content into the editor. */
+  /* Select a specific note and load its title and content into the editor. */
   const selectNote = (note: Note) => {
-    setSelectedNote(note);
-    setCurrentTitle(note.title);
-    setCurrentContent(note.content);
+    if (hasUnsavedChanges) {
+      setShowSavePrompt(true);
+      setPendingNote(note);
+    } else {
+      setSelectedNote(note);
+      setCurrentTitle(note.title);
+      setCurrentContent(note.content);
+      setHasUnsavedChanges(false);
+    }
   };
 
   /* Save the changes made to the selected note. */
@@ -82,6 +106,7 @@ const NotesPage: React.FC = () => {
       );
       setNotes(updatedNotes);
       setSelectedNote({ ...selectedNote, title: currentTitle, content: currentContent });
+      setHasUnsavedChanges(false);
       alert("Note saved successfully!");
     }
   };
@@ -108,7 +133,9 @@ const NotesPage: React.FC = () => {
       );
       setNotes(updatedNotes);
       setSelectedNote({ ...selectedNote, title: newTitle });
+      setCurrentTitle(newTitle);
       setShowRenamePopup(false);
+      setNewTitle("");
     }
   };
 
@@ -117,13 +144,60 @@ const NotesPage: React.FC = () => {
     if (selectedNote) {
       const updatedNotes = notes.filter((note) => note.id !== selectedNote.id);
       setNotes(updatedNotes);
-      setSelectedNote(null);
-      setCurrentTitle("");
-      setCurrentContent("");
-      setShowDeletePopup(false);
+  
+      // Check if there are no notes left
+      if (updatedNotes.length === 0) {
+        setSelectedNote(null);
+        setCurrentTitle("");
+        setCurrentContent("");
+      } else {
+        setSelectedNote(updatedNotes[0]); // Select the first available note
+        setCurrentTitle(updatedNotes[0].title);
+        setCurrentContent(updatedNotes[0].content);
+      }
+      setShowDeletePopup(false); // Close delete popup
     }
   };
+  
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentTitle(e.target.value);
+    setHasUnsavedChanges(true);
+  };
+  
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentContent(e.target.value);
+    setHasUnsavedChanges(true);
+  };
 
+  /* Handle switching without saving, save option */
+  const handleSaveAndSwitch = () => {
+    handleSave(); // Save the current note
+    if (pendingNote) {
+      setSelectedNote(pendingNote);
+      setCurrentTitle(pendingNote.title);
+      setCurrentContent(pendingNote.content);
+    } else {
+      proceedToCreateNewNote();
+    }
+    setHasUnsavedChanges(false);
+    setShowSavePrompt(false);
+    setPendingNote(null);
+    };
+  
+  /* Handle switching without saving, discard option */
+  const handleDiscardAndSwitch = () => {
+    if (pendingNote) {
+      setSelectedNote(pendingNote);
+      setCurrentTitle(pendingNote.title);
+      setCurrentContent(pendingNote.content);
+    } else {
+      proceedToCreateNewNote();
+    }
+    setHasUnsavedChanges(false);
+    setShowSavePrompt(false);
+    setPendingNote(null);
+    }
+  
   return (
     <div className="notesPageContainer">
       <div className="mainContent">
@@ -139,11 +213,16 @@ const NotesPage: React.FC = () => {
             </button>
           )}
           <div className="tabs">
-            <button className="tab">Calendar</button>
+            <button
+              className="tab"
+              onClick={() => navigate("/home")} // Navigate to Calendar page
+            >
+              Calendar
+            </button>
             <button className="tab activeTab">Notes</button>
           </div>
           <div className="rightControls">
-          <img src={profileIcon} alt="Profile" className="profileIcon" />
+            <img src={profileIcon} alt="Profile" className="profileIcon" />
             <button
               className="saveButton"
               onClick={handleSave}
@@ -159,9 +238,9 @@ const NotesPage: React.FC = () => {
           {/* Sidebar */}
           {isSidebarOpen && (
             <div className="sidebar">
-            <div className="sidebarHeader">
-              <span className="labelTitle">{labelName}</span>
-            </div>
+              <div className="sidebarHeader">
+                <span className="labelTitle">{labelName}</span>
+              </div>
               <div className="noteList">
                 {notes.map((note) => (
                   <div
@@ -216,76 +295,97 @@ const NotesPage: React.FC = () => {
 
           {/* Editor */}
           <div className="editor">
-            <input
-              type="text"
-              className="titleInput"
-              placeholder="Title"
-              value={currentTitle}
-              onChange={(e) => setCurrentTitle(e.target.value)}
-              disabled={!selectedNote}
-            />
-            <textarea
-              className="noteContent"
-              placeholder="(Content - can start typing here)"
-              value={currentContent}
-              onChange={(e) => setCurrentContent(e.target.value)}
-              disabled={!selectedNote}
-            ></textarea>
+            {notes.length === 0 ? (
+              <div className="defaultPage">
+                <p className="defaultMessage">Select an existing note or get started by creating a new note!</p>
+                <button className="largeNewNoteButton" onClick={createNewNote}>
+                  New Note <span className="plusIcon">+</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <input
+                  type="text"
+                  className="titleInput"
+                  placeholder="Title"
+                  value={currentTitle}
+                  onChange={handleTitleChange}
+                  disabled={!selectedNote}
+                />
+                <textarea
+                  className="noteContent"
+                  placeholder="(Start typing here!)"
+                  value={currentContent}
+                  onChange={handleContentChange}
+                  disabled={!selectedNote}
+                ></textarea>
+              </>
+            )}
           </div>
         </div>
+
+        {showSavePrompt && (
+          <div className="popupOverlay" onClick={(e) => e.stopPropagation()}>
+            <div className="popupContent" onClick={(e) => e.stopPropagation()}>
+              <h3>You have unsaved changes. Would you like to save your work?</h3>
+              <div className="popupButtons">
+                <button onClick={handleDiscardAndSwitch} className="discardButton">
+                  Discard
+                </button>
+                <button onClick={handleSaveAndSwitch} className="confirmButton">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Rename Popup */}
+        {showRenamePopup && (
+          <div className="popupOverlay" onClick={() => setShowRenamePopup(false)}>
+            <div className="popupContent" onClick={(e) => e.stopPropagation()}>
+              <h3>Enter new name:</h3>
+              <input
+                type="text"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                className="popupInput"
+              />
+              <div className="popupButtons">
+                <button
+                  onClick={() => setShowRenamePopup(false)}
+                  className="cancelButton"
+                >
+                  Cancel
+                </button>
+                <button onClick={handleRename} className="confirmButton">
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Popup */}
+        {showDeletePopup && (
+          <div className="popupOverlay" onClick={() => setShowDeletePopup(false)}>
+            <div className="popupContent" onClick={(e) => e.stopPropagation()}>
+              <h3>Are you sure you want to delete this note?</h3>
+              <div className="popupButtons">
+                <button
+                  onClick={() => setShowDeletePopup(false)}
+                  className="cancelButton"
+                >
+                  Cancel
+                </button>
+                <button onClick={handleDelete} className="deleteConfirmButton">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Rename Popup */}
-      {showRenamePopup && (
-        <div className="popupOverlay" onClick={() => setShowRenamePopup(false)}>
-          <div
-            className="popupContent"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>Enter new name:</h3>
-            <input
-              type="text"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-              className="popupInput"
-            />
-            <div className="popupButtons">
-              <button
-                onClick={() => setShowRenamePopup(false)}
-                className="cancelButton"
-              >
-                Cancel
-              </button>
-              <button onClick={handleRename} className="confirmButton">
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Popup */}
-      {showDeletePopup && (
-        <div className="popupOverlay" onClick={() => setShowDeletePopup(false)}>
-          <div
-            className="popupContent"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>Are you sure you want to delete this note?</h3>
-            <div className="popupButtons">
-              <button
-                onClick={() => setShowDeletePopup(false)}
-                className="cancelButton"
-              >
-                Cancel
-              </button>
-              <button onClick={handleDelete} className="deleteConfirmButton">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
