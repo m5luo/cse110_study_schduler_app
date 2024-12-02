@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style/ForgotPasswordForm.css';
 import { sendEmail } from '../utils/user-utils';
-import { responsivePropType } from 'react-bootstrap/esm/createUtilityClasses';
 
 const ForgotPasswordForm: React.FC = () => { 
   const navigate = useNavigate();
