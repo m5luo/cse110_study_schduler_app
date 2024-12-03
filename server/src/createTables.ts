@@ -33,7 +33,7 @@ const initDB = async () => {
  // Create a "notes" table if it doesn't exist
  await db.exec(`
     CREATE TABLE IF NOT EXISTS notes (
-      note_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      note_id INTEGER PRIMARY KEY,
       user_id INTEGER NOT NULL,
       title TEXT,
       content TEXT,

@@ -3,12 +3,14 @@ import profileIcon from "../images/profile-icon.jpg";
 import "../style/NotesPage.css";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
+import { createNote, deleteNote, fetchNoteByID, fetchNotes, updateNote } from "../utils/note-utils";
+import { Note } from "../types/types";
 
-interface Note {
-  id: number;
-  title: string;
-  content: string;
-}
+// interface Note {
+//   id: number;
+//   title: string;
+//   content: string;
+// }
 
 const NotesPage: React.FC = () => {
   const location = useLocation(); // Access the passed label name of notes
@@ -30,6 +32,17 @@ const NotesPage: React.FC = () => {
 
   /* Ref for handling clicking outside popups to close them. */
   const popupRef = useRef<HTMLDivElement | null>(null);
+
+  // fetch user notes   
+  useEffect(() => {
+    const fetchData = async () => {
+        const token = localStorage.getItem('token') || '""';
+        const usersNotes = await fetchNotes(token);
+        setNotes(usersNotes);
+    };
+  
+    fetchData();
+  }, []);
 
   /* Close the options popup when clicking outside it. */
   useEffect(() => {
@@ -56,7 +69,7 @@ const NotesPage: React.FC = () => {
   /* Create a new note with a default title and content. */
   const createNewNote = () => {
     const newNote: Note = {
-      id: Date.now(),
+      note_id: Date.now(),
       title: "Untitled Note",
       content: "",
     };
@@ -68,21 +81,38 @@ const NotesPage: React.FC = () => {
 
    /* Select a specific note and load its title and content into the editor. */
   const selectNote = (note: Note) => {
+    // const token = localStorage.getItem('token');
+    // const selected_note = fetchNoteByID(token, note.title)
     setSelectedNote(note);
     setCurrentTitle(note.title);
     setCurrentContent(note.content);
   };
 
   /* Save the changes made to the selected note. */
-  const handleSave = () => {
+  const handleSave = async (e: any) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token') || '""';
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
-        note.id === selectedNote.id
+        note.note_id === selectedNote.note_id
           ? { ...note, title: currentTitle, content: currentContent }
           : note
       );
       setNotes(updatedNotes);
       setSelectedNote({ ...selectedNote, title: currentTitle, content: currentContent });
+      
+      const currNote = await fetchNoteByID(token, selectedNote);
+      console.log(currNote);
+
+      if (currNote.count === 0) {
+        const newNote = await createNote(token, {note_id: Date.now(), title: currentTitle, content: currentContent});
+        console.log(newNote.note_id)
+      }
+      else {
+        console.log(selectedNote)
+        const modifiedNote = await updateNote(token, {note_id: selectedNote.note_id, title: currentTitle, content: currentContent});
+        console.log(modifiedNote.note_id)
+      }
       alert("Note saved successfully!");
     }
   };
@@ -105,7 +135,7 @@ const NotesPage: React.FC = () => {
   const handleRename = () => {
     if (selectedNote && newTitle.trim()) {
       const updatedNotes = notes.map((note) =>
-        note.id === selectedNote.id ? { ...note, title: newTitle } : note
+        note.note_id === selectedNote.note_id ? { ...note, title: newTitle } : note
       );
       setNotes(updatedNotes);
       setSelectedNote({ ...selectedNote, title: newTitle });
@@ -114,20 +144,23 @@ const NotesPage: React.FC = () => {
   };
 
   /* Delete the selected note and reset the editor state. */
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    const token = localStorage.getItem('token') || '""';
     if (selectedNote) {
-      const updatedNotes = notes.filter((note) => note.id !== selectedNote.id);
+      const updatedNotes = notes.filter((note) => note.note_id !== selectedNote.note_id);
       setNotes(updatedNotes);
       setSelectedNote(null);
       setCurrentTitle("");
       setCurrentContent("");
       setShowDeletePopup(false);
+      await deleteNote(token, selectedNote)
     }
   };
 
   return (
     <div className="notesPageContainer">
       <div className="mainContent">
+      <Navbar />
         {/* Top Navigation Bar with calendar and notes tab */}
         <div className="topNav">
           {isSidebarOpen ? (
@@ -139,9 +172,8 @@ const NotesPage: React.FC = () => {
               &rarr;
             </button>
           )}
-          <Navbar />
           <div className="rightControls">
-          <img src={profileIcon} alt="Profile" className="profileIcon" />
+          {/* <img src={profileIcon} alt="Profile" className="profileIcon" /> */}
             <button
               className="saveButton"
               onClick={handleSave}
@@ -163,18 +195,18 @@ const NotesPage: React.FC = () => {
               <div className="noteList">
                 {notes.map((note) => (
                   <div
-                    key={note.id}
+                    key={note.note_id}
                     className={`noteItem ${
-                      selectedNote?.id === note.id ? "selected" : ""
+                      selectedNote?.note_id === note.note_id ? "selected" : ""
                     }`}
                     onClick={() => selectNote(note)}
                   >
                     <span className="noteTitle">{note.title}</span>
                     <button
                       className="optionsButton"
-                      onClick={(e) => handleOptionsClick(e, note.id)}
+                      onClick={(e) => handleOptionsClick(e, note.note_id)}
                     ></button>
-                    {showOptionsPopup === note.id && (
+                    {showOptionsPopup === note.note_id && (
                       <div
                         className="optionsPopup"
                         ref={popupRef}

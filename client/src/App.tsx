@@ -15,7 +15,6 @@ import Navbar from './pages/Navbar';
 const App = () => {
   return (
     <Router>
-    {/* <Navbar/> */}
       <Routes>
         <Route path="/" element={<SignInForm />} />
         <Route path="/signup" element={<SignUpForm />} />
@@ -26,6 +25,7 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route path="/password-reset-message" element={<PasswordResetMessage />} />
         <Route path="/home" element={<HomePage />} /> 
+        <Route path="/notes" element={<NotesPage />} /> 
       </Routes>
     </Router>
   );
