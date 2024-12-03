@@ -1,13 +1,17 @@
 // src/components/Navbar.js
 import React from 'react';
 import '../style/Navbar.css';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+
 
 const Navbar = () => {
+//   const navigate = useNavigate();
   return (
     <div className="navbar">
       <div className="nav-left">
-        <div className="nav-item active">Calendar</div>
-        <div className="nav-item">Notes</div>
+        <Link className="nav-item" to='/home'>Calendar</Link>
+        <Link className="nav-item" to='/notes'>Notes</Link>
       </div>
       <div className="profile-icon">
         <svg 

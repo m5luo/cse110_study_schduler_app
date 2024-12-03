@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
 import SignInForm from './pages/SignInForm';
 import SignUpForm from './pages/SignUpForm';
 import ForgotPasswordForm from './pages/ForgotPasswordForm';
@@ -11,10 +10,12 @@ import AccountCreatedMessage from './pages/AccountCreatedMessage';
 import EmailSentMessage from './pages/EmailSentMessage';
 import PasswordResetMessage from './pages/PasswordResetMessage';
 import NotesPage from './pages/NotesPage';
+import Navbar from './pages/Navbar';
 
 const App = () => {
   return (
     <Router>
+    {/* <Navbar/> */}
       <Routes>
         <Route path="/" element={<SignInForm />} />
         <Route path="/signup" element={<SignUpForm />} />

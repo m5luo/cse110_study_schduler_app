@@ -2,6 +2,7 @@ import React from 'react';
 import Calendar from './Calendar.js';
 import Navbar from './Navbar.js';
 import '../App.css';
+import NotesPage from './NotesPage.js';
 
 const HomePage = () => {
   return (

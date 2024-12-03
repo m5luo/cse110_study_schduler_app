@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import profileIcon from "../images/profile-icon.jpg";
 import "../style/NotesPage.css";
 import { useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
 
 interface Note {
   id: number;
@@ -138,10 +139,7 @@ const NotesPage: React.FC = () => {
               &rarr;
             </button>
           )}
-          <div className="tabs">
-            <button className="tab">Calendar</button>
-            <button className="tab activeTab">Notes</button>
-          </div>
+          <Navbar />
           <div className="rightControls">
           <img src={profileIcon} alt="Profile" className="profileIcon" />
             <button
