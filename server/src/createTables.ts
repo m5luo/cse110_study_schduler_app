@@ -2,13 +2,13 @@ import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
 const initDB = async () => {
- // Open the database connection
- const db = await open({
-   filename: "database.sqlite",
-   driver: sqlite3.Database,
- });
- // Create a "users" table if it doesn't exist
- await db.exec(`
+  // Open the database connection
+  const db = await open({
+    filename: "database.sqlite",
+    driver: sqlite3.Database,
+  });
+  // Create a "users" table if it doesn't exist
+  await db.exec(`
    CREATE TABLE IF NOT EXISTS users (
      user_id INTEGER PRIMARY KEY,
      username TEXT NOT NULL UNIQUE,
@@ -17,8 +17,8 @@ const initDB = async () => {
    );
  `);
 
- // Create a "events" table if it doesn't exist
- await db.exec(`
+  // Create a "events" table if it doesn't exist
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS events (
       id INTEGER PRIMARY KEY,
       title TEXT NOT NULL,
@@ -29,7 +29,18 @@ const initDB = async () => {
       FOREIGN KEY(user_id) REFERENCES users(user_id)
     );
   `);
- return db;
+
+  // Create the "todoList" table if it doesn't exist
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS todolist (
+      id TEXT PRIMARY KEY,
+      content TEXT NOT NULL,
+      completed INTEGER NOT NULL DEFAULT 0,
+      user_id INT NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES users(user_id)
+    );
+  `);
+  return db;
 };
 
 export default initDB;
