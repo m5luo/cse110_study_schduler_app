@@ -18,3 +18,14 @@ export type Event = {
     endTime: string;
     weekday: string;
 };
+
+export type Note = {
+    note_id: number;
+    // user_id: number;
+    title: string;
+    content: string;
+}
+
+export type noteCount = {
+    count: number;
+}

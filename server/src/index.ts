@@ -2,6 +2,7 @@
 import { Response } from 'express';
 import { createUserEndpoints } from './user/user-endpoints';
 import { createEventEndpoints } from './event/event-endpoints';
+import { createNoteEndpoints } from "./notes/note-endpoints"; 
 import { Event } from './types';
 import initDB from './createTables';
 
@@ -35,14 +36,5 @@ app.listen(port, () => {
    
     createUserEndpoints(app, db);
     createEventEndpoints(app, db);
+    createNoteEndpoints(app, db);
 })();
-
-//  // Root endpoint to get test if the server is running
-//  app.get("/", (req: Request, res: Response) => {
-//    res.send({ "data": "Hello, TypeScript Express!" });
-//    res.status(200);
-//  });
-
-//  createUserEndpoints(app, db);
-
-// })();

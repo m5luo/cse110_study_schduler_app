@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import profileIcon from "../images/profile-icon.jpg";
 import "../style/NotesPage.css";
 import { useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
+import { createNote, deleteNote, fetchNoteByID, fetchNotes, updateNote } from "../utils/note-utils";
+import { Note } from "../types/types";
 
-interface Note {
-  id: number;
-  title: string;
-  content: string;
-}
+// interface Note {
+//   id: number;
+//   title: string;
+//   content: string;
+// }
 
 const NotesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -32,6 +35,16 @@ const NotesPage: React.FC = () => {
   /* Ref for handling clicking outside popups to close them. */
   const popupRef = useRef<HTMLDivElement | null>(null);
 
+  // fetch user notes   
+  useEffect(() => {
+    const fetchData = async () => {
+        const token = localStorage.getItem('token') || '""';
+        const usersNotes = await fetchNotes(token);
+        setNotes(usersNotes);
+    };
+  
+    fetchData();
+  }, []);
   /* Variables to handle if there are unsaved changes in the note editor */
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showSavePrompt, setShowSavePrompt] = useState(false);
@@ -72,7 +85,7 @@ const NotesPage: React.FC = () => {
   //create a new note after handling any unsaved changes
   const proceedToCreateNewNote = () => {
     const newNote: Note = {
-      id: Date.now(),
+      note_id: Date.now(),
       title: "Untitled Note",
       content: "",
     };
@@ -85,6 +98,11 @@ const NotesPage: React.FC = () => {
 
   /* Select a specific note and load its title and content into the editor. */
   const selectNote = (note: Note) => {
+    // const token = localStorage.getItem('token');
+    // const selected_note = fetchNoteByID(token, note.title)
+    // setSelectedNote(note);
+    // setCurrentTitle(note.title);
+    // setCurrentContent(note.content);
     if (hasUnsavedChanges) {
       setShowSavePrompt(true);
       setPendingNote(note);
@@ -97,15 +115,30 @@ const NotesPage: React.FC = () => {
   };
 
   /* Save the changes made to the selected note. */
-  const handleSave = () => {
+  const handleSave = async (e: any) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token') || '""';
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
-        note.id === selectedNote.id
+        note.note_id === selectedNote.note_id
           ? { ...note, title: currentTitle, content: currentContent }
           : note
       );
       setNotes(updatedNotes);
       setSelectedNote({ ...selectedNote, title: currentTitle, content: currentContent });
+      
+      const currNote = await fetchNoteByID(token, selectedNote);
+      console.log(currNote);
+
+      if (currNote.count === 0) {
+        const newNote = await createNote(token, {note_id: Date.now(), title: currentTitle, content: currentContent});
+        console.log(newNote.note_id)
+      }
+      else {
+        console.log(selectedNote)
+        const modifiedNote = await updateNote(token, {note_id: selectedNote.note_id, title: currentTitle, content: currentContent});
+        console.log(modifiedNote.note_id)
+      }
       setHasUnsavedChanges(false);
       alert("Note saved successfully!");
     }
@@ -129,7 +162,7 @@ const NotesPage: React.FC = () => {
   const handleRename = () => {
     if (selectedNote && newTitle.trim()) {
       const updatedNotes = notes.map((note) =>
-        note.id === selectedNote.id ? { ...note, title: newTitle } : note
+        note.note_id === selectedNote.note_id ? { ...note, title: newTitle } : note
       );
       setNotes(updatedNotes);
       setSelectedNote({ ...selectedNote, title: newTitle });
@@ -140,10 +173,16 @@ const NotesPage: React.FC = () => {
   };
 
   /* Delete the selected note and reset the editor state. */
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    const token = localStorage.getItem('token') || '""';
     if (selectedNote) {
-      const updatedNotes = notes.filter((note) => note.id !== selectedNote.id);
+      const updatedNotes = notes.filter((note) => note.note_id !== selectedNote.note_id);
       setNotes(updatedNotes);
+    //   setSelectedNote(null);
+    //   setCurrentTitle("");
+    //   setCurrentContent("");
+    //   setShowDeletePopup(false);
+    //   await deleteNote(token, selectedNote)
   
       // Check if there are no notes left
       if (updatedNotes.length === 0) {
@@ -170,8 +209,8 @@ const NotesPage: React.FC = () => {
   };
 
   /* Handle switching without saving, save option */
-  const handleSaveAndSwitch = () => {
-    handleSave(); // Save the current note
+  const handleSaveAndSwitch = (e: any) => {
+    handleSave(e); // Save the current note
     if (pendingNote) {
       setSelectedNote(pendingNote);
       setCurrentTitle(pendingNote.title);
@@ -201,6 +240,7 @@ const NotesPage: React.FC = () => {
   return (
     <div className="notesPageContainer">
       <div className="mainContent">
+      <Navbar />
         {/* Top Navigation Bar with calendar and notes tab */}
         <div className="topNav">
           {isSidebarOpen ? (
@@ -212,17 +252,8 @@ const NotesPage: React.FC = () => {
               &rarr;
             </button>
           )}
-          <div className="tabs">
-            <button
-              className="tab"
-              onClick={() => navigate("/home")} // Navigate to Calendar page
-            >
-              Calendar
-            </button>
-            <button className="tab activeTab">Notes</button>
-          </div>
           <div className="rightControls">
-            <img src={profileIcon} alt="Profile" className="profileIcon" />
+          {/* <img src={profileIcon} alt="Profile" className="profileIcon" /> */}
             <button
               className="saveButton"
               onClick={handleSave}
@@ -244,18 +275,18 @@ const NotesPage: React.FC = () => {
               <div className="noteList">
                 {notes.map((note) => (
                   <div
-                    key={note.id}
+                    key={note.note_id}
                     className={`noteItem ${
-                      selectedNote?.id === note.id ? "selected" : ""
+                      selectedNote?.note_id === note.note_id ? "selected" : ""
                     }`}
                     onClick={() => selectNote(note)}
                   >
                     <span className="noteTitle">{note.title}</span>
                     <button
                       className="optionsButton"
-                      onClick={(e) => handleOptionsClick(e, note.id)}
+                      onClick={(e) => handleOptionsClick(e, note.note_id)}
                     ></button>
-                    {showOptionsPopup === note.id && (
+                    {showOptionsPopup === note.note_id && (
                       <div
                         className="optionsPopup"
                         ref={popupRef}

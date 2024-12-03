@@ -29,6 +29,18 @@ const initDB = async () => {
       FOREIGN KEY(user_id) REFERENCES users(user_id)
     );
   `);
+
+ // Create a "notes" table if it doesn't exist
+ await db.exec(`
+    CREATE TABLE IF NOT EXISTS notes (
+      note_id INTEGER PRIMARY KEY,
+      user_id INTEGER NOT NULL,
+      title TEXT,
+      content TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(user_id)
+    );
+`);
+
  return db;
 };
 

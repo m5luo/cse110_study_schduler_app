@@ -16,7 +16,7 @@
   align-items: center;
   padding: 8px 16px;
   border-bottom: 1px solid #e0e0e0;
-  background-color: #CCE5FF;
+  background-color: #f0f0f0;
 }
 
 /* Toggle for the sidebar */
@@ -49,18 +49,22 @@
   background-color: #a3b7cc;
 }
 
-/* Positioning for profile icon and save button */
+
+/* Positioning for save button */
 .rightControls {
-  position: absolute;
+  /* position: absolute;
   top: 8px;
   right: 12px; 
+  float: right;
   display: flex;
   flex-direction: column; 
   align-items: flex-end; 
-  gap: 8px;
+  gap: 8px; */
+  float: right;
 }
 
-.profileIcon {
+
+/* .profileIcon {
   width: 36px;
   height: 36px; 
   border-radius: 50%; 
@@ -72,11 +76,11 @@
   align-items: center;
   position: relative; 
   right: 12px;
-}
+} */
 
 .saveButton {
   padding: 8px 16px;
-  background-color: #4caf50;
+  background-color: #7db37f;
   color: white;
   border: none;
   border-radius: 16px;
@@ -153,13 +157,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: medium;
   gap: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* The plus sign next to new note */
 .plusIcon {
-  color: #4caf50;
+  color: #7db37f;
   font-weight: bold;
 }
 

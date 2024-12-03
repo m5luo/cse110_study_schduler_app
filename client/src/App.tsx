@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
 import SignInForm from './pages/SignInForm';
 import SignUpForm from './pages/SignUpForm';
 import ForgotPasswordForm from './pages/ForgotPasswordForm';
@@ -11,6 +10,7 @@ import AccountCreatedMessage from './pages/AccountCreatedMessage';
 import EmailSentMessage from './pages/EmailSentMessage';
 import PasswordResetMessage from './pages/PasswordResetMessage';
 import NotesPage from './pages/NotesPage';
+import Navbar from './pages/Navbar';
 
 const App = () => {
   return (
@@ -25,6 +25,7 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route path="/password-reset-message" element={<PasswordResetMessage />} />
         <Route path="/home" element={<HomePage />} /> 
+        <Route path="/notes" element={<NotesPage />} /> 
       </Routes>
     </Router>
   );
