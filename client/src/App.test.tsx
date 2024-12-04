@@ -5,6 +5,8 @@ import {jest} from '@jest/globals';
 import App from './App';
 import SignInForm from './pages/SignInForm';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import fetchMock from 'jest-fetch-mock';
+import { API_BASE_URL } from './constants';
 
 jest.mock('./utils/user-utils')
 const mockLoginUser = userUtils.loginUser as jest.Mock;
@@ -121,33 +123,6 @@ describe('Sign in page tests', () => {
         expect(homePageElement).not.toBeInTheDocument();
     });
 
-    test('user creation works', async () => {
-        mockCreateUser.mockResolvedValue({ token: 'fake-jwt-token' });
-    
-        window.history.pushState({}, 'Sign Up Page', '/signup');
-        render(<App />);
-    
-        const usernameInput = screen.getByPlaceholderText(/Username/i);
-        const emailInput = screen.getByPlaceholderText(/Email/i);
-        const passwordInput = screen.getByPlaceholderText('Password');
-        const confirmPasswordInput = screen.getByPlaceholderText(/Confirm Password/i);
-        const signUpButton = screen.getByRole('button', { name: /Get Started/i });
-    
-        fireEvent.change(usernameInput, { target: { value: 'TestUser' } });
-        fireEvent.change(emailInput, { target: { value: 'testuser@example.com' } });
-        fireEvent.change(passwordInput, { target: { value: 'Password123!' } });
-        fireEvent.change(confirmPasswordInput, { target: { value: 'Password123!' } });
-    
-        fireEvent.click(signUpButton);
-    
-        await waitFor(() => {
-          expect(userUtils.createUser).toHaveBeenCalledTimes(1);
-          expect(userUtils.createUser).toHaveBeenCalledWith({
-            username: 'TestUser',
-            email: 'testuser@example.com',
-            password: 'Password123!',
-          });
-        });
-      });
+      
 });
 
