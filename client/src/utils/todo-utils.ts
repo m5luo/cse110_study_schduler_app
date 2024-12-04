@@ -3,8 +3,13 @@ import { API_BASE_URL } from "../constants";
 import { Todo } from "../types/types";
 
 // Fetch the list of todos
-export const getTodos = async (token: string): Promise<Todo[]> => {
-  const response = await fetch(`${API_BASE_URL}/todolist`);
+export const getTodos = async (token: string) => {
+  const response = await fetch(`${API_BASE_URL}/todolist`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch todos");
   }
@@ -19,6 +24,7 @@ export const createTodo = async (token: string, todo: Todo): Promise<Todo> => {
   const response = await fetch(`${API_BASE_URL}/todolist`, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(todo),
@@ -36,6 +42,7 @@ export const updateTodo = async (token: string, id: any, completed: any) => {
   const response = await fetch(`${API_BASE_URL}/todolist/${id}`, {
     method: "PUT",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ completed }),
@@ -54,6 +61,9 @@ export const updateTodo = async (token: string, id: any, completed: any) => {
 export const deleteTodo = async (token: string, id: any) => {
   const response = await fetch(`${API_BASE_URL}/todolist/${id}`, {
     method: "DELETE", // Using DELETE method
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {

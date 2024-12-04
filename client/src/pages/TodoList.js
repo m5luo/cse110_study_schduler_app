@@ -1,7 +1,7 @@
 // src/TodoList.js
 import React, { useEffect, useState } from "react";
-import "./TodoList.css";
-import { getTodos, createTodo, deleteTodo, updateTodo } from "./utils/todo-utils";
+import "../style/TodoList.css";
+import { getTodos, createTodo, deleteTodo, updateTodo } from "../utils/todo-utils";
 
 const TodoList = ({ isOpen, onClose }) => {
   const [todos, setTodos] = useState([]);
@@ -12,9 +12,9 @@ const TodoList = ({ isOpen, onClose }) => {
     const fetchTodos = async () => {
       try {
         const token = localStorage.getItem("token");
-        const todos = await getTodos(token); // fetch todos from the backend
-        console.log(todos);
-        setTodos(todos);
+        const todosFromBackend = await getTodos(token); // fetch todos from the backend
+        console.log(todosFromBackend);
+        setTodos(todosFromBackend);
       } catch (error) {
         console.error("Failed to fetch todos:", error);
       }
