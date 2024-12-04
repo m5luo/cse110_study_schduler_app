@@ -44,10 +44,10 @@ export const fetchEvents = async (token: string): Promise<Event[]> => {
 
   // Parsing the response to get the data
   let eventList = response.json().then((jsonResponse) => {
-    // console.log("data in fetchEvents", jsonResponse);
+    console.log("data in fetchEvents", jsonResponse);
     return jsonResponse.data;
   });
 
-  // console.log("response in fetchExpenses", eventList);
+  console.log("response in fetchExpenses", eventList);
   return eventList;
 };
