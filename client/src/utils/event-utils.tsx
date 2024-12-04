@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../constants";
 import { Event } from "../types/types";
 
-// Function to create an expense in the backend. Method: POST
+// Function to create an event in the backend. Method: POST
 export const createEvent = async (token: string, event: Event): Promise<Event> => {
   const response = await fetch(`${API_BASE_URL}/events`, {
     method: "POST",
@@ -17,7 +17,7 @@ export const createEvent = async (token: string, event: Event): Promise<Event> =
   return response.json();
 };
 
-// Function to delete an expense in the backend. Method: DELETE
+// Function to delete an event in the backend. Method: DELETE
 export const deleteEvent = async (token: string, title: string): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/events/${title}`, {
     method: "DELETE",
@@ -30,7 +30,7 @@ export const deleteEvent = async (token: string, title: string): Promise<void> =
   }
 };
 
-// Function to get all expenses from the backend. Method: GET
+// Function to get all events from the backend. Method: GET
 export const fetchEvents = async (token: string): Promise<Event[]> => {
   const response = await fetch(`${API_BASE_URL}/events`, {
     method: "GET",

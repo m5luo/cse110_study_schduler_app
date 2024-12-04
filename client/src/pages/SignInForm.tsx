@@ -77,7 +77,7 @@ const SignInForm: React.FC = () => {
             Forgot your password?
           </button>
         </div>
-        <button type="submit" className="loginButton">
+        <button type="submit" className="loginButton" aria-label='login-button'>
           Log in
         </button>
         <button
