@@ -5,7 +5,6 @@ import {jest} from '@jest/globals';
 import App from './App';
 import SignInForm from './pages/SignInForm';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import fetchMock from 'jest-fetch-mock';
 import { API_BASE_URL } from './constants';
 
 jest.mock('./utils/user-utils')
