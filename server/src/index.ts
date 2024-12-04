@@ -4,6 +4,7 @@ import { createEventEndpoints } from "./event/event-endpoints";
 import { Event } from "./types";
 import initDB from "./createTables";
 import { createTodoEndpoints } from "./todolist/todo-endpoints";
+import { createNoteEndpoints } from "./notes/note-endpoints";
 
 // import dotenv from 'dotenv';
 
@@ -36,6 +37,7 @@ app.listen(port, () => {
   createUserEndpoints(app, db);
   createEventEndpoints(app, db);
   createTodoEndpoints(app, db);
+  createNoteEndpoints(app, db);
 })();
 
 //  // Root endpoint to get test if the server is running

@@ -17,3 +17,10 @@ export type Todo = {
   content: string;
   completed: boolean;
 };
+
+export type Note = {
+  noteId: number;
+  userId: number;
+  title: string;
+  content: string;
+};
