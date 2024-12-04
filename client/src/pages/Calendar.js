@@ -96,6 +96,15 @@ const Calendar = () => {
     setIsTodoListOpen(!isTodoListOpen);
   };
 
+  const clickCalendar = (day, time) => {
+    if(time >= 23){
+        setFormData({ title: '', startTime: '', endTime: '', weekday: day });
+    }else{
+        const timePlusOneIndex = times.findIndex(t => t === time) + 1;
+        setFormData({ title: '', startTime: time, endTime: times[timePlusOneIndex], weekday: day });
+    }
+  }
+
   return (
     <>
       <div className="calendar-container">
@@ -112,7 +121,7 @@ const Calendar = () => {
                 {days.map(weekday => {
                   const event = isTimeSlotOccupied(time, weekday);
                   return (
-                    <div key={`${time}-${weekday}`} className="calendar-cell">
+                    <div key={`${time}-${weekday}`} className="calendar-cell" onClick={() => clickCalendar(weekday, time)}>
                       {event && (
                         <div className="event">
                           {isFirstTimeSlot(time, weekday, event) && (
