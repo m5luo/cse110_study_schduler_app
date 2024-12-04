@@ -6,6 +6,7 @@ import TodoList from "../pages/TodoList";
 import shareIcon from "../images/share.png";
 import deleteIcon from "../images/trash-can.png";
 import { createEvent, deleteEvent, fetchEvents } from "../utils/event-utils";
+import Navbar from "./Navbar";
 
 const Calendar = () => {
   const [events, setEvents] = useState([]);
