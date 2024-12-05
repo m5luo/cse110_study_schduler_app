@@ -195,6 +195,7 @@ const NotesPage: React.FC = () => {
         setCurrentContent(updatedNotes[0].content);
       }
       setShowDeletePopup(false); // Close delete popup
+      await deleteNote(token, selectedNote)
     }
   };
   
