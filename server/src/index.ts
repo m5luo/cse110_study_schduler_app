@@ -39,13 +39,3 @@ app.listen(port, () => {
   createTodoEndpoints(app, db);
   createNoteEndpoints(app, db);
 })();
-
-//  // Root endpoint to get test if the server is running
-//  app.get("/", (req: Request, res: Response) => {
-//    res.send({ "data": "Hello, TypeScript Express!" });
-//    res.status(200);
-//  });
-
-//  createUserEndpoints(app, db);
-
-// })();
