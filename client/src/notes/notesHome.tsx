@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import LabelCard from "./labelCard";
 import "./notesPage.css";
 
+// Started working on the Labels page (which isn't an MVP feature)
+// Set up a static view of the page with mock data initially, based on the Figma mockup design
+
 const NotesPage: React.FC = () => {
   // Mock data
   const [labels, setLabels] = useState([

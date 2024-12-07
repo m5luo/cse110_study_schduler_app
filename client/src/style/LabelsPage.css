@@ -1,0 +1,125 @@
+.labelsPage {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+  }
+  
+  .labelsPageContainer {
+    display: flex;
+    flex-grow: 1;
+  }
+  
+  /* Sidebar styles */
+  .sidebar {
+    width: 300px;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ccc;
+  }
+  
+  .sidebarHeader {
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #dfe4ea;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .labelList {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+  }
+  
+  .labelItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #e7e7e7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #ccc;
+  }
+  
+  .labelItem:hover {
+    background-color: #d6d6d6;
+  }
+  
+  .labelItem.selected {
+    background-color: #a3b7cc;
+    color: #fff;
+  }
+  
+  .deleteLabelButton {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .addLabel {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+  }
+  
+  .newLabelInput {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .addButton {
+    margin-left: 8px;
+    padding: 8px 12px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  /* Main content styles */
+  .mainContent {
+    flex-grow: 1;
+    padding: 24px;
+    background-color: #ffffff;
+  }
+  
+  .selectedLabelContent {
+    text-align: center;
+  }
+  
+  .selectedLabelContent h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .addNoteButton {
+    padding: 12px 24px;
+    background-color: #7db37f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .noLabelSelected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+  }
+  
+  .noLabelSelected h2 {
+    color: #888;
+  }
