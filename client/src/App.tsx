@@ -12,6 +12,7 @@ import EmailSentMessage from "./pages/EmailSentMessage";
 import PasswordResetMessage from "./pages/PasswordResetMessage";
 import NotesPage from "./pages/NotesPage";
 import Navbar from "./pages/Navbar";
+import LabelsPage from "./pages/LabelsPage";
 
 const App = () => {
   return (
@@ -27,6 +28,8 @@ const App = () => {
         <Route path="/password-reset-message" element={<PasswordResetMessage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/notes" element={<NotesPage />} />
+        {/* Commented out the route for labels since we didn't finish the feature and it wasn't in our MVP */}
+        {/* <Route path="/labels" element={<LabelsPage />} /> */}
       </Routes>
     </Router>
   );
